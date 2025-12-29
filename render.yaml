@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: chess-server
+    runtime: node
+    repo: https://github.com/your-username/your-repo
+    region: oregon
+    plan: free
+    buildCommand: cd server && npm install
+    startCommand: cd server && npm start
+    envVars:
+      - key: CLIENT_URL
+        value: https://your-frontend.onrender.com
+      - key: NODE_VERSION
+        value: 18.16.0
+  - type: web
+    name: chess-client
+    runtime: node
+    repo: https://github.com/your-username/your-repo
+    region: oregon
+    plan: free
+    buildCommand: cd client && npm install && npm run build
+    staticPublishPath: client/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://your-backend.onrender.com
+      - key: NODE_VERSION
+        value: 18.16.0

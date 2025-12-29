@@ -9,7 +9,7 @@ app.use(cors());
 const server = http.createServer(app);
 const io = new Server(server, {
     cors: {
-        origin: "http://localhost:5173", // Vite default port
+        origin: process.env.CLIENT_URL || "http://localhost:5173", // Vite default port or Render env
         methods: ["GET", "POST"]
     }
 });
@@ -46,15 +46,15 @@ io.on('connection', (socket) => {
             socket.emit('error', 'Room is full');
             return;
         }
-        
+
         game.players.push(socket.id);
         socket.join(roomId);
         socket.emit('game_joined', { roomId, color: 'b', fen: game.fen });
         io.to(roomId).emit('player_joined', { playerCount: game.players.length });
-        
+
         // Notify white that black has joined (game start condition)
         if (game.players.length === 2) {
-             io.to(roomId).emit('game_start', { fen: game.fen });
+            io.to(roomId).emit('game_start', { fen: game.fen });
         }
         console.log(`User ${socket.id} joined room ${roomId}`);
     });
@@ -65,9 +65,9 @@ io.on('connection', (socket) => {
 
         // In a real app, validate move with chess.js here on server side too
         // For now, we trust the client's validated move and just broadcast
-        game.fen = fen; 
+        game.fen = fen;
         game.history.push(move);
-        
+
         socket.to(roomId).emit('move', { move, fen });
     });
 
@@ -78,6 +78,7 @@ io.on('connection', (socket) => {
     });
 });
 
-server.listen(3001, () => {
-    console.log('SERVER RUNNING on port 3001');
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, () => {
+    console.log(`SERVER RUNNING on port ${PORT}`);
 });
