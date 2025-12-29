@@ -3,10 +3,11 @@ services:
     name: chess-server
     runtime: node
     repo: https://github.com/your-username/your-repo
+    rootDir: server
     region: oregon
     plan: free
-    buildCommand: cd server && npm install
-    startCommand: cd server && npm start
+    buildCommand: npm install
+    startCommand: npm start
     envVars:
       - key: CLIENT_URL
         value: https://your-frontend.onrender.com
@@ -16,10 +17,11 @@ services:
     name: chess-client
     runtime: node
     repo: https://github.com/your-username/your-repo
+    rootDir: client
     region: oregon
     plan: free
-    buildCommand: cd client && npm install && npm run build
-    staticPublishPath: client/dist
+    buildCommand: npm install && npm run build
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
         value: https://your-backend.onrender.com
