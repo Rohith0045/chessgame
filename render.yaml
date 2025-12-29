@@ -2,7 +2,7 @@ services:
   - type: web
     name: chess-server
     runtime: node
-    repo: https://github.com/your-username/your-repo
+    repo: https://github.com/Rohith0045/chessgame
     rootDir: server
     region: oregon
     plan: free
@@ -16,7 +16,7 @@ services:
   - type: web
     name: chess-client
     runtime: node
-    repo: https://github.com/your-username/your-repo
+    repo: https://github.com/Rohith0045/chessgame
     rootDir: client
     region: oregon
     plan: free
